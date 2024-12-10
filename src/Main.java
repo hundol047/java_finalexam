@@ -1,11 +1,7 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.*;
 
 public class Main {
     private static JFrame frame;
@@ -26,6 +22,11 @@ public class Main {
         frame.setVisible(true);
 
     }
+
+    private static JLabel createCuisineLabel(String cuisine) {
+        return null;
+    }
+
 
     private static JLabel createCuisinelLabel(String cuisine) {
         JLabel label = new JLabel(cuisine, SwingConstants.CENTER);
@@ -70,6 +71,10 @@ public class Main {
         foodFrame.setVisible(true);
     }
 
+    private static String[] getFoodList(String cuisine) {
+        return new String[0];
+    }
+
     private static JLabel createFoodLabel(String food) {
         JLabel label = new JLabel(food, SwingConstants.CENTER);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -91,4 +96,4 @@ public class Main {
 
 }
 
-    }
+
