@@ -57,4 +57,16 @@ public class Main {
         return label;
     }
 
+    private static void showFoodList(String cuisine) {
+        JFrame foodFrmae = new JFrame();
+        foodFrmae.setSize(300, 300);
+        foodFrmae.setLayout(new GridLayout(0, 1));
+        foodFrmae.setLocationRelativeTo(JFrame.DISPOSE_ON_CLOSE);
+
+        for (String food : getFoodList(cuisine)) {
+            JLabel foodLabel = createFoodLabel(food);
+            foodFrmae.setVisible(true);
+        }
+    }
+
     }
