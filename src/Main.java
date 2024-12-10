@@ -58,34 +58,37 @@ public class Main {
     }
 
     private static void showFoodList(String cuisine) {
-        JFrame foodFrmae = new JFrame();
-        foodFrmae.setLocationRelativeTo(JFrame.DISPOSE_ON_CLOSE);
-        foodFrmae.setSize(300, 300);
-        foodFrmae.setLayout(new GridLayout(0, 1));
-
+        JFrame foodFrame = new JFrame();
+        foodFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        foodFrame.setSize(300, 300);
+        foodFrame.setLayout(new GridLayout(0, 1));
 
         for (String food : getFoodList(cuisine)) {
             JLabel foodLabel = createFoodLabel(food);
-            foodFrmae.setVisible(true);
+            foodFrame.add(foodLabel);
         }
-
-        private static JLabel createFoodLabel(String food) {
-            JLabel label = new JLabel(food, SwingConstants.CENTER);
-            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            label.setFont(new Font("Serif", Font.PLAIN, 16));
-            label.setOpaque(true);
-            label.setBackground(Color.WHITE);
-            label.setForeground(Color.BLACK);
-            label.setPreferredSize(new Dimension(300, 40));
-
-            label.addMouseListener(new MouseAdapter() {
-
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                }
-            })
-        }
+        foodFrame.setVisible(true);
     }
+
+    private static JLabel createFoodLabel(String food) {
+        JLabel label = new JLabel(food, SwingConstants.CENTER);
+        label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        label.setFont(new Font("Serif", Font.PLAIN, 16));
+        label.setOpaque(true);
+        label.setBackground(Color.WHITE);
+        label.setForeground(Color.BLACK);
+        label.setPreferredSize(new Dimension(300, 40));
+
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+            }
+        });
+
+        return label; // 이 줄을 추가하여 label을 반환합니다.
+    }
+
+}
 
     }
