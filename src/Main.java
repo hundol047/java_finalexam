@@ -2,6 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 
 public class Main {
     private static JFrame frame;
@@ -92,6 +95,23 @@ public class Main {
         });
 
         return label; // 이 줄을 추가하여 label을 반환합니다.
+    }
+
+    private static void openMapForFood(String food) {
+        try {
+            String bounds = "36.6152,127.4420|36.6603,127.4850";
+            String query = URLEncoder.encode(food + " 음식점", "UTF-8");
+            String url =  "https://www.google.com/maps/search/?api=1&query=" + query + "&bounds=" + bounds;
+
+            if (Desktop.isDesktopSupported()) {
+                Desktop getDesktop().browse(new URI(url));
+            }
+            else {
+                System.err.println("Desktop is not supported");
+            }
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 
 }
