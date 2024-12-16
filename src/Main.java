@@ -62,13 +62,25 @@ public class Main {
         JFrame foodFrame = new JFrame(cuisine + " 음식 목록");
         foodFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         foodFrame.setSize(300, 300);
-        foodFrame.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        foodFrame.setLayout(new BorderLayout()); // 레이아웃을 BorderLayout으로 설정
         foodFrame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
+
+        JPanel foodPanel = new JPanel();
+        foodPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
 
         for (String food : getFoodList(cuisine)) {
             JLabel foodLabel = createFoodLabel(food);
-            foodFrame.add(foodLabel);
+            foodPanel.add(foodLabel);
         }
+
+        JButton backButton = new JButton("뒤로 돌아가기");
+        backButton.addActionListener(e -> foodFrame.dispose()); // 버튼 클릭 시 음식 목록 창 닫기
+        backButton.setPreferredSize(new Dimension(300, 40)); // 버튼 크기 설정
+        backButton.setBackground(Color.WHITE);
+
+        foodFrame.add(foodPanel, BorderLayout.CENTER);
+        foodFrame.add(backButton, BorderLayout.SOUTH); // 버튼을 아래쪽에 추가
 
         foodFrame.setVisible(true);
     }
