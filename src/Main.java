@@ -15,6 +15,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 300);
         frame.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
         // 음식 종류 레이블 생성
         String[] cuisines = {"한식", "중식", "양식", "일식", "카페", "편의점", "당구장", "노래방", "PC방"};
@@ -62,6 +63,7 @@ public class Main {
         foodFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         foodFrame.setSize(300, 300);
         foodFrame.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        foodFrame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
         for (String food : getFoodList(cuisine)) {
             JLabel foodLabel = createFoodLabel(food);
@@ -104,10 +106,11 @@ public class Main {
     // 음식 이름 클릭 시 지도에서 위치 열기
     private static void openMapForFood(String food) {
         try {
-            // 청주 지역의 대략적인 경계 설정 (남서쪽과 북동쪽 좌표)
-            String bounds = "36.6152,127.4420|36.6603,127.4850"; // 위도, 경도
+            // 음식점 검색 쿼리 인코딩
             String query = URLEncoder.encode(food + " 음식점", "UTF-8");
-            String url = "https://www.google.com/maps/search/?api=1&query=" + query + "&bounds=" + bounds;
+            // 구글 맵 URL 생성
+            String url = "https://www.google.com/maps/search/?q=" + query;
+
             // Desktop API가 지원되는지 확인
             if (Desktop.isDesktopSupported()) {
                 Desktop.getDesktop().browse(new URI(url)); // 웹 브라우저로 URL 열기
@@ -145,6 +148,7 @@ public class Main {
         }
     }
 }
+
 
 
 
