@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -69,8 +70,8 @@ public class Main {
         foodPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
         foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
 
-        for (String food : getFoodList(cuisine)) {
-            JLabel foodLabel = createFoodLabel(food);
+        for (Object food : getFoodList(cuisine)) {
+            JLabel foodLabel = createFoodLabel((String) food);
             foodPanel.add(foodLabel);
         }
 
@@ -134,30 +135,78 @@ public class Main {
         }
     }
 
-    // 음식 목록 반환
-    private static String[] getFoodList(String cuisine) {
+    // 음식 목록 반환 (ArrayList 사용)
+    private static ArrayList<Object> getFoodList(String cuisine) {
+        ArrayList<Object> foodList = new ArrayList<>(); // ArrayList 생성
         switch (cuisine) {
             case "한식":
-                return new String[]{"오로지", "덕불감자탕", "국가대표", "부활", "성진식당", "청주대 불고기"};
+                foodList.add("오로지");
+                foodList.add("덕불감자탕");
+                foodList.add("국가대표");
+                foodList.add("부활");
+                foodList.add("성진식당");
+                foodList.add("청주대 불고기");
+                break;
             case "중식":
-                return new String[]{"짬뽕의 맛", "가연각", "진풍루", "황궁쟁반짜장", "마라퀸", "대박 마라팅", "천미 마라탕"};
+                foodList.add("짬뽕의 맛");
+                foodList.add("가연각");
+                foodList.add("진풍루");
+                foodList.add("황궁쟁반짜장");
+                foodList.add("마라퀸");
+                foodList.add("대박 마라팅");
+                foodList.add("천미 마라탕");
+                break;
             case "양식":
-                return new String[]{"믹스레스토랑", "버거운버거"};
+                foodList.add("믹스레스토랑");
+                foodList.add("버거운버거");
+                break;
             case "일식":
-                return new String[]{"봉득식당", "면식당", "자연을 담은 돈까스", "다누끼", "아지트"};
+                foodList.add("봉득식당");
+                foodList.add("면식당");
+                foodList.add("자연을 담은 돈까스");
+                foodList.add("다누끼");
+                foodList.add("아지트");
+                break;
             case "카페":
-                return new String[]{"아르떼", "CHAI", "쿼드커피", "씨스테이션", "Dessert 39", "A TWOSOME PLACE"};
+                foodList.add("아르떼");
+                foodList.add("CHAI");
+                foodList.add("쿼드커피");
+                foodList.add("씨스테이션");
+                foodList.add("Dessert 39");
+                foodList.add("A TWOSOME PLACE");
+                break;
             case "편의점":
-                return new String[]{"GS25", "7 Eleven", "CU"};
+                foodList.add("GS25");
+                foodList.add("7 Eleven");
+                foodList.add("CU");
+                break;
             case "당구장":
-                return new String[]{"중문당구장", "럭키당구장", "브론슨당구장", "갤러리당구장", "윙크당구장", "잘굴러당구장"};
+                foodList.add("중문당구장");
+                foodList.add("럭키당구장");
+                foodList.add("브론슨당구장");
+                foodList.add("갤러리당구장");
+                foodList.add("윙크당구장");
+                foodList.add("잘굴러당구장");
+                break;
             case "노래방":
-                return new String[]{"코인고 동전노래방", "럭셔시수노래방", "질러코인 노래방", "아이코인 노래방"};
+                foodList.add("코인고 동전노래방");
+                foodList.add("럭셔시수노래방");
+                foodList.add("질러코인 노래방");
+                foodList.add("아이코인 노래방");
+                break;
             case "PC방":
-                return new String[]{"긱스타", "OXPC방", "LOLPC", "PC TAG", "락PC스테이션", "흑&백PC방"};
+                foodList.add("긱스타");
+                foodList.add("OXPC방");
+                foodList.add("LOLPC");
+                foodList.add("PC TAG");
+                foodList.add("락PC스테이션");
+                foodList.add("흑&백PC방");
+                break;
             default:
-                return new String[]{"알 수 없는 음식"};
+                foodList.add("알 수 없는 음식");
+                break;
         }
+        return foodList; // ArrayList 반환
     }
 }
 
