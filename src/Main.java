@@ -76,9 +76,27 @@ public class Main {
         }
 
         JButton backButton = new JButton("뒤로 돌아가기");
-        backButton.addActionListener(e -> foodFrame.dispose()); // 버튼 클릭 시 음식 목록 창 닫기
         backButton.setPreferredSize(new Dimension(300, 40)); // 버튼 크기 설정
         backButton.setBackground(Color.WHITE);
+        backButton.setOpaque(true);
+        backButton.setFocusPainted(false); // 버튼의 포커스 효과 제거
+
+        // 마우스 리스너 추가
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                backButton.setBackground(Color.BLUE); // 마우스 오버 시 배경색 변경
+                backButton.setForeground(Color.WHITE); // 글자색 변경
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                backButton.setBackground(Color.WHITE); // 마우스 나갈 시 배경색 원래대로
+                backButton.setForeground(Color.BLACK); // 글자색 원래대로
+            }
+        });
+
+        backButton.addActionListener(e -> foodFrame.dispose()); // 버튼 클릭 시 음식 목록 창 닫기
 
         foodFrame.add(foodPanel, BorderLayout.CENTER);
         foodFrame.add(backButton, BorderLayout.SOUTH); // 버튼을 아래쪽에 추가
