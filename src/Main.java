@@ -9,21 +9,48 @@ import java.util.ArrayList;
 public class Main {
 
     private static JFrame frame;
+    private static JPanel foodPanel; // 음식 목록 패널
 
     public static void main(String[] args) {
         // 창 생성
         frame = new JFrame("청주대 근처 음식점, 놀이 찾기");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 300);
-        frame.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        frame.setSize(600, 300); // 창 크기 조정
+        frame.setLayout(new BorderLayout()); // 전체 레이아웃을 BorderLayout으로 설정
         frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
         // 음식 종류 레이블 생성
+        JPanel cuisinePanel = new JPanel();
+        cuisinePanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        cuisinePanel.setBackground(Color.WHITE); // 배경색 흰색으로 설정
+
         String[] cuisines = {"한식", "중식", "양식", "일식", "카페", "편의점", "당구장", "노래방", "PC방"};
         for (String cuisine : cuisines) {
             JLabel label = createCuisineLabel(cuisine);
-            frame.add(label);
+            cuisinePanel.add(label);
         }
+
+        // 음식 목록 패널 초기화
+        foodPanel = new JPanel();
+        foodPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
+        foodPanel.setPreferredSize(new Dimension(300, 300)); // 음식 목록 패널 크기 설정
+
+        // 구분선 추가
+        JSeparator separator = new JSeparator(); // JSeparator 사용
+        separator.setOrientation(SwingConstants.HORIZONTAL); // 수평 선
+        separator.setPreferredSize(new Dimension(1, 1)); // 크기 설정
+        separator.setBackground(Color.BLACK); // 선 색상 검정색
+        separator.setForeground(Color.BLACK); // 선 색상 검정색
+
+        // 스크롤 가능하도록 설정
+        JScrollPane scrollPane = new JScrollPane(foodPanel);
+        scrollPane.setPreferredSize(new Dimension(300, 300)); // 스크롤 패널 크기 설정
+
+        // 패널을 프레임에 추가
+        frame.add(cuisinePanel, BorderLayout.WEST); // 음식 종류 패널을 왼쪽에 추가
+        frame.add(separator, BorderLayout.CENTER); // 구분선 추가
+        frame.add(scrollPane, BorderLayout.EAST); // 음식 목록 패널을 오른쪽에 추가
 
         frame.setVisible(true);
     }
@@ -32,16 +59,16 @@ public class Main {
     private static JLabel createCuisineLabel(String cuisine) {
         JLabel label = new JLabel(cuisine, SwingConstants.CENTER);
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // 커서 변경
-        label.setFont(new Font("Serif", Font.BOLD, 18)); // 글씨 크기 및 스타일 변경
+        label.setFont(new Font("Serif", Font.BOLD, 16)); // 글씨 크기 및 스타일 변경
         label.setOpaque(true); // 배경색 적용을 위해 불투명으로 설정
         label.setBackground(Color.WHITE); // 배경색 흰색으로 설정
         label.setForeground(Color.BLACK); // 글자색 검정색으로 설정
-        label.setPreferredSize(new Dimension(300, 50)); // 레이블 크기 설정
+        label.setPreferredSize(new Dimension(150, 30)); // 레이블 크기 설정 (높이를 줄임)
 
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                showFoodList(cuisine);
+                showFoodList(cuisine); // 음식 목록 표시
             }
 
             @Override
@@ -60,48 +87,15 @@ public class Main {
 
     // 음식 목록을 보여주는 메서드
     private static void showFoodList(String cuisine) {
-        JFrame foodFrame = new JFrame(cuisine + " 음식 목록");
-        foodFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        foodFrame.setSize(300, 300);
-        foodFrame.setLayout(new BorderLayout()); // 레이아웃을 BorderLayout으로 설정
-        foodFrame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
-
-        JPanel foodPanel = new JPanel();
-        foodPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
-        foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
+        foodPanel.removeAll(); // 기존 음식 목록 지우기
 
         for (Object food : getFoodList(cuisine)) {
             JLabel foodLabel = createFoodLabel((String) food);
             foodPanel.add(foodLabel);
         }
 
-        JButton backButton = new JButton("뒤로 돌아가기");
-        backButton.setPreferredSize(new Dimension(300, 40)); // 버튼 크기 설정
-        backButton.setBackground(Color.WHITE);
-        backButton.setOpaque(true);
-        backButton.setFocusPainted(false); // 버튼의 포커스 효과 제거
-
-        // 마우스 리스너 추가
-        backButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                backButton.setBackground(Color.BLUE); // 마우스 오버 시 배경색 변경
-                backButton.setForeground(Color.WHITE); // 글자색 변경
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                backButton.setBackground(Color.WHITE); // 마우스 나갈 시 배경색 원래대로
-                backButton.setForeground(Color.BLACK); // 글자색 원래대로
-            }
-        });
-
-        backButton.addActionListener(e -> foodFrame.dispose()); // 버튼 클릭 시 음식 목록 창 닫기
-
-        foodFrame.add(foodPanel, BorderLayout.CENTER);
-        foodFrame.add(backButton, BorderLayout.SOUTH); // 버튼을 아래쪽에 추가
-
-        foodFrame.setVisible(true);
+        foodPanel.revalidate(); // 패널 재배치
+        foodPanel.repaint(); // 패널 다시 그리기
     }
 
     // 음식 목록 레이블 생성
@@ -219,6 +213,7 @@ public class Main {
                 foodList.add("PC TAG");
                 foodList.add("락PC스테이션");
                 foodList.add("흑&백PC방");
+
                 break;
             default:
                 foodList.add("알 수 없는 음식");
