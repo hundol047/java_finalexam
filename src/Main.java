@@ -23,6 +23,7 @@ public class Main {
         JPanel cuisinePanel = new JPanel();
         cuisinePanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
         cuisinePanel.setBackground(Color.WHITE); // 배경색 흰색으로 설정
+        cuisinePanel.setPreferredSize(new Dimension(100, 0)); // 가로 길이 줄이기
 
         String[] cuisines = {"한식", "중식", "양식", "일식", "카페", "편의점", "당구장", "노래방", "PC방"};
         for (String cuisine : cuisines) {
@@ -45,7 +46,7 @@ public class Main {
 
         // 스크롤 가능하도록 설정
         JScrollPane scrollPane = new JScrollPane(foodPanel);
-        scrollPane.setPreferredSize(new Dimension(300, 300)); // 스크롤 패널 크기 설정
+        scrollPane.setPreferredSize(new Dimension(500, 300)); // 스크롤 패널 크기 설정
 
         // 패널을 프레임에 추가
         frame.add(cuisinePanel, BorderLayout.WEST); // 음식 종류 패널을 왼쪽에 추가
@@ -63,7 +64,7 @@ public class Main {
         label.setOpaque(true); // 배경색 적용을 위해 불투명으로 설정
         label.setBackground(Color.WHITE); // 배경색 흰색으로 설정
         label.setForeground(Color.BLACK); // 글자색 검정색으로 설정
-        label.setPreferredSize(new Dimension(150, 30)); // 레이블 크기 설정 (높이를 줄임)
+        label.setPreferredSize(new Dimension(100, 50)); // 가로 길이 줄이기
 
         label.addMouseListener(new MouseAdapter() {
             @Override
