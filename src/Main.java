@@ -84,8 +84,9 @@ public class Main {
         }
 
         // 음식 종류 패널 색상 변경
-        for (Component comp : ((JPanel) frame.getContentPane().getComponent(0)).getComponents()) {
-            comp.setForeground(foregroundColor);
+        for (Component comp : ((JPanel) frame.getContentPane().getComponent(1)).getComponents()) {
+            comp.setBackground(backgroundColor); // 배경색 변경
+            comp.setForeground(foregroundColor); // 글자색 변경
         }
 
         frame.revalidate(); // UI 재배치
@@ -115,7 +116,7 @@ public class Main {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                label.setForeground(Color.BLACK); // 마우스 나갈 시 색상 원래대로
+                label.setForeground(isDarkMode ? Color.WHITE : Color.BLACK); // 다크 모드일 때 색상 변경
             }
         });
 
