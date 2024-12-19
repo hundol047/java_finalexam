@@ -11,6 +11,7 @@ public class Main {
     private static JFrame frame;
     private static JPanel foodPanel; // 음식 목록 패널
     private static boolean isDarkMode = false; // 다크 모드 상태
+    private static JButton toggleButton; // 다크 모드 전환 버튼
 
     public static void main(String[] args) {
         // 창 생성
@@ -20,8 +21,9 @@ public class Main {
         frame.setLayout(new BorderLayout()); // 전체 레이아웃을 BorderLayout으로 설정
         frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
-        // 다크 모드 전환 버튼 추가
-        JButton toggleButton = new JButton("다크 모드 전환");
+        // 다크 모드 전환 버튼 생성 (이모지 사용)
+        toggleButton = new JButton("🌙"); // 초기 아이콘은 달 이모지
+        toggleButton.setPreferredSize(new Dimension(40, 40)); // 버튼 크기 조정
         toggleButton.addActionListener(e -> toggleDarkMode()); // 버튼 클릭 시 다크 모드 전환
         frame.add(toggleButton, BorderLayout.NORTH);
 
@@ -61,10 +63,13 @@ public class Main {
     // 다크 모드 전환 메서드
     private static void toggleDarkMode() {
         isDarkMode = !isDarkMode; // 다크 모드 상태 전환
-        Color backgroundColor = isDarkMode ? Color.BLACK : Color.WHITE;
+        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.WHITE;
         Color foregroundColor = isDarkMode ? Color.WHITE : Color.BLACK;
 
         frame.getContentPane().setBackground(backgroundColor); // 프레임 배경색 설정
+
+        // 버튼 아이콘 변경
+        toggleButton.setText(isDarkMode ? "☀️" : "🌙"); // 다크 모드일 때 해, 아닐 때 달 이모지로 변경
 
         // 버튼 색상 변경
         for (Component comp : frame.getContentPane().getComponents()) {
@@ -145,7 +150,7 @@ public class Main {
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // 커서 변경
         label.setFont(new Font("Serif", Font.PLAIN, 16)); // 글씨 크기 및 스타일 변경
         label.setOpaque(true); // 배경색 적용을 위해 불투명으로 설정
-        label.setBackground(isDarkMode ? Color.BLACK : Color.WHITE); // 배경색 설정
+        label.setBackground(isDarkMode ? Color.DARK_GRAY : Color.WHITE); // 배경색 설정
         label.setForeground(isDarkMode ? Color.WHITE : Color.BLACK); // 글자색 설정
         label.setPreferredSize(new Dimension(300, 40)); // 레이블 크기 설정
 
