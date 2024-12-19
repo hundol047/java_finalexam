@@ -159,7 +159,7 @@ public class Main {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                label.setForeground(Color.BLACK); // 마우스 나갈 시 색상 원래대로
+                label.setForeground(isDarkMode ? Color.WHITE : Color.BLACK); // 다크 모드일 때 색상 변경
             }
         });
 
