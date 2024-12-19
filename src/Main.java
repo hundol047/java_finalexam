@@ -28,7 +28,6 @@ public class Main {
         // 음식 종류 레이블 생성
         JPanel cuisinePanel = new JPanel();
         cuisinePanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
-        cuisinePanel.setBackground(Color.WHITE); // 배경색 흰색으로 설정
         cuisinePanel.setPreferredSize(new Dimension(100, 0)); // 가로 길이 줄이기
 
         String[] cuisines = {"한식", "중식", "양식", "일식", "카페", "편의점", "당구장", "노래방", "PC방"};
@@ -40,7 +39,6 @@ public class Main {
         // 음식 목록 패널 초기화
         foodPanel = new JPanel();
         foodPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
-        foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
         foodPanel.setPreferredSize(new Dimension(300, 300)); // 음식 목록 패널 크기 설정
 
         // 구분선 추가
@@ -63,10 +61,12 @@ public class Main {
     // 다크 모드 전환 메서드
     private static void toggleDarkMode() {
         isDarkMode = !isDarkMode; // 다크 모드 상태 전환
-        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.WHITE;
+        Color backgroundColor = isDarkMode ? Color.BLACK : Color.WHITE;
         Color foregroundColor = isDarkMode ? Color.WHITE : Color.BLACK;
 
         frame.getContentPane().setBackground(backgroundColor); // 프레임 배경색 설정
+
+        // 버튼 색상 변경
         for (Component comp : frame.getContentPane().getComponents()) {
             comp.setBackground(backgroundColor); // 모든 컴포넌트 배경색 설정
             if (comp instanceof JButton) {
@@ -78,13 +78,15 @@ public class Main {
         foodPanel.setBackground(backgroundColor);
         foodPanel.setForeground(foregroundColor);
 
-        // 레이블 색상 변경
+        // 음식 목록 레이블 색상 변경
         for (Component comp : foodPanel.getComponents()) {
-            comp.setForeground(foregroundColor);
+            comp.setBackground(backgroundColor); // 배경색 변경
+            comp.setForeground(foregroundColor); // 글자색 변경
         }
 
         // 음식 종류 패널 색상 변경
-        for (Component comp : ((JPanel) frame.getContentPane().getComponent(1)).getComponents()) {
+        JPanel cuisinePanel = (JPanel) frame.getContentPane().getComponent(1);
+        for (Component comp : cuisinePanel.getComponents()) {
             comp.setBackground(backgroundColor); // 배경색 변경
             comp.setForeground(foregroundColor); // 글자색 변경
         }
@@ -127,6 +129,7 @@ public class Main {
     private static void showFoodList(String cuisine) {
         foodPanel.removeAll(); // 기존 음식 목록 지우기
 
+        // 음식 목록을 가져와서 레이블 추가
         for (Object food : getFoodList(cuisine)) {
             JLabel foodLabel = createFoodLabel((String) food);
             foodPanel.add(foodLabel);
@@ -142,8 +145,8 @@ public class Main {
         label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)); // 커서 변경
         label.setFont(new Font("Serif", Font.PLAIN, 16)); // 글씨 크기 및 스타일 변경
         label.setOpaque(true); // 배경색 적용을 위해 불투명으로 설정
-        label.setBackground(Color.WHITE); // 배경색 흰색으로 설정
-        label.setForeground(Color.BLACK); // 글자색 검정색으로 설정
+        label.setBackground(isDarkMode ? Color.BLACK : Color.WHITE); // 배경색 설정
+        label.setForeground(isDarkMode ? Color.WHITE : Color.BLACK); // 글자색 설정
         label.setPreferredSize(new Dimension(300, 40)); // 레이블 크기 설정
 
         label.addMouseListener(new MouseAdapter() {
