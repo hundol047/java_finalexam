@@ -10,12 +10,14 @@ public class Main {
 
     private static JFrame frame;
     private static JPanel foodPanel; // 음식 목록 패널
+    private static JPanel favoritesPanel; // 즐겨찾기 목록 패널
+    private static ArrayList<String> favoritesList = new ArrayList<>(); // 즐겨찾기 저장할 리스트
 
     public static void main(String[] args) {
         // 창 생성
         frame = new JFrame("청주대 근처 음식점, 놀이 찾기");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 300); // 창 크기 조정
+        frame.setSize(800, 300); // 창 크기 조정
         frame.setLayout(new BorderLayout()); // 전체 레이아웃을 BorderLayout으로 설정
         frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
@@ -23,7 +25,7 @@ public class Main {
         JPanel cuisinePanel = new JPanel();
         cuisinePanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
         cuisinePanel.setBackground(Color.WHITE); // 배경색 흰색으로 설정
-        cuisinePanel.setPreferredSize(new Dimension(80, 0)); // 가로 길이 줄이기
+        cuisinePanel.setPreferredSize(new Dimension(100, 0)); // 가로 길이 줄이기
 
         String[] cuisines = {"한식", "중식", "양식", "일식", "카페", "편의점", "당구장", "노래방", "PC방"};
         for (String cuisine : cuisines) {
@@ -37,19 +39,29 @@ public class Main {
         foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
         foodPanel.setPreferredSize(new Dimension(300, 300)); // 음식 목록 패널 크기 설정
 
+        // 즐겨찾기 목록 패널 초기화
+        favoritesPanel = new JPanel();
+        favoritesPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
+        favoritesPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
+        favoritesPanel.setPreferredSize(new Dimension(200, 300)); // 즐겨찾기 목록 패널 크기 설정
+
         // 구분선 추가
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL); // 수직 선으로 설정
         separator.setPreferredSize(new Dimension(1, 300)); // 크기 설정 (너비를 1로 줄임)
         separator.setForeground(Color.BLACK); // 선 색상 검정색으로 설정
 
         // 스크롤 가능하도록 설정
-        JScrollPane scrollPane = new JScrollPane(foodPanel);
-        scrollPane.setPreferredSize(new Dimension(500, 300)); // 스크롤 패널 크기 설정
+        JScrollPane foodScrollPane = new JScrollPane(foodPanel);
+        foodScrollPane.setPreferredSize(new Dimension(300, 300)); // 음식 목록 스크롤 패널 크기 설정
+
+        JScrollPane favoritesScrollPane = new JScrollPane(favoritesPanel);
+        favoritesScrollPane.setPreferredSize(new Dimension(200, 300)); // 즐겨찾기 목록 스크롤 패널 크기 설정
 
         // 패널을 프레임에 추가
         frame.add(cuisinePanel, BorderLayout.WEST); // 음식 종류 패널을 왼쪽에 추가
         frame.add(separator, BorderLayout.CENTER); // 구분선 추가
-        frame.add(scrollPane, BorderLayout.EAST); // 음식 목록 패널을 오른쪽에 추가
+        frame.add(foodScrollPane, BorderLayout.CENTER); // 음식 목록 패널을 중앙에 추가
+        frame.add(favoritesScrollPane, BorderLayout.EAST); // 즐겨찾기 목록 패널을 오른쪽에 추가
 
         frame.setVisible(true);
     }
@@ -111,6 +123,10 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openMapForFood(food); // 클릭 시 지도 열기
+                addToFavorites(food); // 클릭 시 즐겨찾기에 추가
+            }
+
+            private void addToFavorites(String food) {
             }
 
             @Override
