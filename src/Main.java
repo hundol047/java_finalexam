@@ -19,7 +19,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 300); // 창 크기 조정
         frame.setLayout(new BorderLayout()); // 전체 레이아웃을 BorderLayout으로 설정
-        frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
 
         // 음식 종류 레이블 생성
         JPanel cuisinePanel = new JPanel();
@@ -32,22 +31,22 @@ public class Main {
             cuisinePanel.add(label);
         }
 
-        // 구분선 추가
-        JSeparator separator = new JSeparator(); // 수평 선으로 설정
-        separator.setPreferredSize(new Dimension(800, 2)); // 선의 길이 조정
-        separator.setForeground(Color.BLACK); // 선 색상 검정색으로 설정
-
         // 다크 모드 전환 버튼 생성 (이모지 사용)
         toggleButton = new JButton("🌙"); // 초기 아이콘은 달 이모지
         toggleButton.setPreferredSize(new Dimension(50, 50)); // 버튼 크기 조정
-        toggleButton.setBackground(Color.WHITE); // 버튼 배경색을 흰색으로 설정
         toggleButton.setBorderPainted(false); // 버튼 테두리 없애기
+        toggleButton.setBackground(Color.WHITE); // 버튼 배경색 흰색 유지
         toggleButton.addActionListener(e -> toggleDarkMode()); // 버튼 클릭 시 다크 모드 전환
 
-        // 다크 모드 전환 버튼을 추가할 패널 생성
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // FlowLayout을 사용하여 왼쪽 정렬
-        topPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
-        topPanel.add(toggleButton); // 버튼 추가
+        // 상단 패널 생성 (버튼 및 구분선 포함)
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS)); // 세로로 나열
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // 버튼 정렬
+        buttonPanel.add(toggleButton);
+        JSeparator topSeparator = new JSeparator();
+        topSeparator.setForeground(Color.BLACK); // 구분선 초기 색상 설정
+        topPanel.add(buttonPanel); // 버튼 패널 추가
+        topPanel.add(topSeparator); // 구분선 추가
 
         // 음식 목록 패널 초기화
         foodPanel = new JPanel();
@@ -60,22 +59,8 @@ public class Main {
 
         // 패널을 프레임에 추가
         frame.add(cuisinePanel, BorderLayout.WEST); // 음식 종류 패널을 왼쪽에 추가
-        frame.add(separator, BorderLayout.NORTH); // 구분선 추가
-        frame.add(topPanel, BorderLayout.NORTH); // 다크 모드 전환 버튼을 프레임의 북쪽에 추가
+        frame.add(topPanel, BorderLayout.NORTH); // 상단 패널 추가
         frame.add(foodScrollPane, BorderLayout.CENTER); // 음식 목록 패널을 중앙에 추가
-
-        // 구분선과 버튼 사이에 추가적인 구분선 추가
-        JSeparator buttonSeparator = new JSeparator(); // 다크 모드 버튼과 음식 종류 사이의 구분선
-        buttonSeparator.setPreferredSize(new Dimension(800, 2)); // 선의 길이 조정
-        buttonSeparator.setForeground(Color.BLACK); // 선 색상 검정색으로 설정
-
-        // 버튼과 구분선을 포함하는 패널 생성
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS)); // 세로로 나열
-        buttonPanel.add(topPanel);
-        buttonPanel.add(buttonSeparator); // 구분선 추가
-
-        frame.add(buttonPanel, BorderLayout.NORTH); // 버튼 패널을 프레임의 북쪽에 추가
 
         frame.setVisible(true);
     }
@@ -89,10 +74,10 @@ public class Main {
         // 프레임 전체 배경색 변경
         frame.getContentPane().setBackground(backgroundColor);
 
-        // 버튼 아이콘 변경
+        // 버튼 색상 변경
         toggleButton.setText(isDarkMode ? "☀️" : "🌙"); // 다크 모드일 때 해, 아닐 때 달 이모지로 변경
-        toggleButton.setBackground(Color.WHITE); // 버튼 배경색 설정
-        toggleButton.setForeground(foregroundColor); // 버튼 글자색 설정
+        toggleButton.setBackground(Color.WHITE); // 버튼 배경색 항상 흰색 유지
+        toggleButton.setForeground(foregroundColor); // 버튼 글자색 변경
 
         // 음식 종류 패널 색상 변경
         JPanel cuisinePanel = (JPanel) frame.getContentPane().getComponent(0); // 음식 종류 패널
@@ -102,20 +87,17 @@ public class Main {
             comp.setForeground(foregroundColor); // 글자색 변경
         }
 
-        // 구분선 색상 변경
-        JSeparator separator = (JSeparator) frame.getContentPane().getComponent(1);
-        separator.setForeground(foregroundColor);
-
-        // 다크 모드 전환 버튼이 있는 상단 패널 색상 변경
-        JPanel topPanel = (JPanel) frame.getContentPane().getComponent(2);
-        topPanel.setBackground(backgroundColor);
-
         // 음식 목록 패널 색상 변경
         foodPanel.setBackground(backgroundColor);
         for (Component comp : foodPanel.getComponents()) {
             comp.setBackground(backgroundColor); // 배경색 변경
             comp.setForeground(foregroundColor); // 글자색 변경
         }
+
+        // 상단 패널 내 구분선 색상 변경
+        JPanel topPanel = (JPanel) frame.getContentPane().getComponent(1); // 상단 패널
+        JSeparator topSeparator = (JSeparator) topPanel.getComponent(1); // 구분선
+        topSeparator.setForeground(isDarkMode ? Color.DARK_GRAY : Color.BLACK); // 다크 모드일 때 다크 그레이, 아닐 때 검정
 
         frame.revalidate(); // UI 재배치
         frame.repaint(); // UI 다시 그리기
@@ -198,25 +180,22 @@ public class Main {
     // 음식 이름 클릭 시 지도에서 위치 열기
     private static void openMapForFood(String food) {
         try {
-            // 음식점 검색 쿼리 인코딩
             String query = URLEncoder.encode(food + " 음식점", "UTF-8");
-            // 구글 맵 URL 생성
             String url = "https://www.google.com/maps/search/?q=" + query;
 
-            // Desktop API가 지원되는지 확인
             if (Desktop.isDesktopSupported()) {
-                Desktop.getDesktop().browse(new URI(url)); // 웹 브라우저로 URL 열기
+                Desktop.getDesktop().browse(new URI(url));
             } else {
                 System.err.println("Desktop API가 지원되지 않습니다.");
             }
         } catch (Exception e) {
-            e.printStackTrace(); // 오류 발생 시 스택 트레이스 출력
+            e.printStackTrace();
         }
     }
 
     // 음식 목록 반환 (ArrayList 사용)
     private static ArrayList<Object> getFoodList(String cuisine) {
-        ArrayList<Object> foodList = new ArrayList<>(); // ArrayList 생성
+        ArrayList<Object> foodList = new ArrayList<>();
         switch (cuisine) {
             case "한식":
                 foodList.add("오로지");
@@ -285,9 +264,13 @@ public class Main {
                 foodList.add("알 수 없는 음식");
                 break;
         }
-        return foodList; // ArrayList 반환
+        return foodList;
     }
 }
+
+
+
+
 
 
 
