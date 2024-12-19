@@ -33,14 +33,14 @@ public class Main {
 
         // 다크 모드 전환 버튼 생성 (이모지 사용)
         toggleButton = new JButton("🌙"); // 초기 아이콘은 달 이모지
-        toggleButton.setPreferredSize(new Dimension(40, 40)); // 버튼 크기 조정
+        toggleButton.setPreferredSize(new Dimension(1700, 60)); // 버튼 크기 조정
         toggleButton.setBorderPainted(false); // 버튼 테두리 없애기
-        toggleButton.setBackground(Color.WHITE); // 버튼 배경색 흰색 유지
+        toggleButton.setBackground(Color.DARK_GRAY); // 버튼 배경색 흰색 유지
         toggleButton.addActionListener(e -> toggleDarkMode()); // 버튼 클릭 시 다크 모드 전환
 
         // 상단 패널 생성 (버튼 및 구분선 포함)
         JPanel topPanel = new JPanel();
-        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // 버튼 정렬
+        topPanel.setLayout(new FlowLayout(FlowLayout.LEFT)); // 버튼 왼쪽 정렬
         topPanel.add(toggleButton); // 버튼 추가
         JSeparator topSeparator = new JSeparator();
         topSeparator.setForeground(Color.BLACK); // 구분선 초기 색상 설정
@@ -94,6 +94,7 @@ public class Main {
 
         // 상단 패널 내 구분선 색상 변경
         JPanel topPanel = (JPanel) frame.getContentPane().getComponent(1); // 상단 패널
+        topPanel.setBackground(backgroundColor);
         JSeparator topSeparator = (JSeparator) topPanel.getComponent(1); // 구분선
         topSeparator.setForeground(isDarkMode ? Color.LIGHT_GRAY : Color.BLACK); // 구분선 색상
 
@@ -195,7 +196,7 @@ public class Main {
     private static ArrayList<Object> getFoodList(String cuisine) {
         ArrayList<Object> foodList = new ArrayList<>();
         switch (cuisine) {
-            
+
             case "한식":
                 foodList.add("오로지");
                 foodList.add("덕불감자탕");
