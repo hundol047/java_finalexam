@@ -10,8 +10,7 @@ public class Main {
 
     private static JFrame frame;
     private static JPanel foodPanel; // 음식 목록 패널
-    private static JPanel favoritesPanel; // 즐겨찾기 목록 패널
-    private static ArrayList<String> favoritesList = new ArrayList<>(); // 즐겨찾기 저장할 리스트
+    private static boolean isDarkMode = false; // 다크 모드 상태
 
     public static void main(String[] args) {
         // 창 생성
@@ -20,6 +19,11 @@ public class Main {
         frame.setSize(800, 300); // 창 크기 조정
         frame.setLayout(new BorderLayout()); // 전체 레이아웃을 BorderLayout으로 설정
         frame.getContentPane().setBackground(Color.WHITE); // 배경색 흰색으로 설정
+
+        // 다크 모드 전환 버튼 추가
+        JButton toggleButton = new JButton("다크 모드 전환");
+        toggleButton.addActionListener(e -> toggleDarkMode()); // 버튼 클릭 시 다크 모드 전환
+        frame.add(toggleButton, BorderLayout.NORTH);
 
         // 음식 종류 레이블 생성
         JPanel cuisinePanel = new JPanel();
@@ -39,12 +43,6 @@ public class Main {
         foodPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
         foodPanel.setPreferredSize(new Dimension(300, 300)); // 음식 목록 패널 크기 설정
 
-        // 즐겨찾기 목록 패널 초기화
-        favoritesPanel = new JPanel();
-        favoritesPanel.setLayout(new GridLayout(0, 1)); // 세로로 나열
-        favoritesPanel.setBackground(Color.WHITE); // 패널 배경색 흰색으로 설정
-        favoritesPanel.setPreferredSize(new Dimension(200, 300)); // 즐겨찾기 목록 패널 크기 설정
-
         // 구분선 추가
         JSeparator separator = new JSeparator(SwingConstants.VERTICAL); // 수직 선으로 설정
         separator.setPreferredSize(new Dimension(1, 300)); // 크기 설정 (너비를 1로 줄임)
@@ -54,16 +52,44 @@ public class Main {
         JScrollPane foodScrollPane = new JScrollPane(foodPanel);
         foodScrollPane.setPreferredSize(new Dimension(300, 300)); // 음식 목록 스크롤 패널 크기 설정
 
-        JScrollPane favoritesScrollPane = new JScrollPane(favoritesPanel);
-        favoritesScrollPane.setPreferredSize(new Dimension(200, 300)); // 즐겨찾기 목록 스크롤 패널 크기 설정
-
         // 패널을 프레임에 추가
         frame.add(cuisinePanel, BorderLayout.WEST); // 음식 종류 패널을 왼쪽에 추가
         frame.add(separator, BorderLayout.CENTER); // 구분선 추가
         frame.add(foodScrollPane, BorderLayout.CENTER); // 음식 목록 패널을 중앙에 추가
-        frame.add(favoritesScrollPane, BorderLayout.EAST); // 즐겨찾기 목록 패널을 오른쪽에 추가
 
         frame.setVisible(true);
+    }
+
+    // 다크 모드 전환 메서드
+    private static void toggleDarkMode() {
+        isDarkMode = !isDarkMode; // 다크 모드 상태 전환
+        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.WHITE;
+        Color foregroundColor = isDarkMode ? Color.WHITE : Color.BLACK;
+
+        frame.getContentPane().setBackground(backgroundColor); // 프레임 배경색 설정
+        for (Component comp : frame.getContentPane().getComponents()) {
+            comp.setBackground(backgroundColor); // 모든 컴포넌트 배경색 설정
+            if (comp instanceof JButton) {
+                comp.setForeground(foregroundColor); // 버튼 글자색 설정
+            }
+        }
+
+        // 음식 목록 패널 색상 변경
+        foodPanel.setBackground(backgroundColor);
+        foodPanel.setForeground(foregroundColor);
+
+        // 레이블 색상 변경
+        for (Component comp : foodPanel.getComponents()) {
+            comp.setForeground(foregroundColor);
+        }
+
+        // 음식 종류 패널 색상 변경
+        for (Component comp : ((JPanel) frame.getContentPane().getComponent(0)).getComponents()) {
+            comp.setForeground(foregroundColor);
+        }
+
+        frame.revalidate(); // UI 재배치
+        frame.repaint(); // UI 다시 그리기
     }
 
     // 음식 종류 레이블 생성
@@ -123,10 +149,6 @@ public class Main {
             @Override
             public void mouseClicked(MouseEvent e) {
                 openMapForFood(food); // 클릭 시 지도 열기
-                addToFavorites(food); // 클릭 시 즐겨찾기에 추가
-            }
-
-            private void addToFavorites(String food) {
             }
 
             @Override
@@ -183,6 +205,8 @@ public class Main {
                 foodList.add("대박 마라팅");
                 foodList.add("천미 마라탕");
                 break;
+
+
             case "양식":
                 foodList.add("믹스레스토랑");
                 foodList.add("버거운버거");
