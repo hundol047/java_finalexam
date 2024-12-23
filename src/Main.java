@@ -33,9 +33,10 @@ public class Main {
 
         // 다크 모드 전환 버튼 생성 (이모지 사용)
         toggleButton = new JButton("🌙"); // 초기 아이콘은 달 이모지
-        toggleButton.setPreferredSize(new Dimension(1700, 60)); // 버튼 크기 조정
+        toggleButton.setPreferredSize(new Dimension(60, 60)); // 버튼 크기 조정
         toggleButton.setBorderPainted(false); // 버튼 테두리 없애기
-        toggleButton.setBackground(Color.DARK_GRAY); // 버튼 배경색 흰색 유지
+        toggleButton.setBackground(Color.DARK_GRAY); // 버튼 배경색 초기화
+        toggleButton.setForeground(Color.WHITE);
         toggleButton.addActionListener(e -> toggleDarkMode()); // 버튼 클릭 시 다크 모드 전환
 
         // 상단 패널 생성 (버튼 및 구분선 포함)
@@ -74,8 +75,8 @@ public class Main {
 
         // 버튼 색상 변경
         toggleButton.setText(isDarkMode ? "☀️" : "🌙"); // 다크 모드일 때 해, 아닐 때 달 이모지로 변경
-        toggleButton.setBackground(Color.WHITE); // 버튼 배경색 항상 흰색 유지
-        toggleButton.setForeground(foregroundColor); // 버튼 글자색 변경
+        toggleButton.setBackground(backgroundColor);
+        toggleButton.setForeground(foregroundColor);
 
         // 음식 종류 패널 색상 변경
         JPanel cuisinePanel = (JPanel) frame.getContentPane().getComponent(0); // 음식 종류 패널
@@ -96,10 +97,25 @@ public class Main {
         JPanel topPanel = (JPanel) frame.getContentPane().getComponent(1); // 상단 패널
         topPanel.setBackground(backgroundColor);
         JSeparator topSeparator = (JSeparator) topPanel.getComponent(1); // 구분선
-        topSeparator.setForeground(isDarkMode ? Color.LIGHT_GRAY : Color.BLACK); // 구분선 색상
+        topSeparator.setForeground(isDarkMode ? Color.LIGHT_GRAY : Color.BLACK);
 
+        updateFoodLabels();
         frame.revalidate(); // UI 재배치
         frame.repaint(); // UI 다시 그리기
+    }
+
+    // 음식 레이블 색상 갱신 메서드
+    private static void updateFoodLabels() {
+        Color backgroundColor = isDarkMode ? Color.DARK_GRAY : Color.WHITE;
+        Color foregroundColor = isDarkMode ? Color.WHITE : Color.BLACK;
+
+        for (Component comp : foodPanel.getComponents()) {
+            if (comp instanceof JLabel) {
+                JLabel label = (JLabel) comp;
+                label.setBackground(backgroundColor);
+                label.setForeground(foregroundColor);
+            }
+        }
     }
 
     // 음식 종류 레이블 생성
@@ -196,7 +212,6 @@ public class Main {
     private static ArrayList<Object> getFoodList(String cuisine) {
         ArrayList<Object> foodList = new ArrayList<>();
         switch (cuisine) {
-
             case "한식":
                 foodList.add("오로지");
                 foodList.add("덕불감자탕");
@@ -267,6 +282,7 @@ public class Main {
         return foodList;
     }
 }
+
 
 
 
